@@ -32,7 +32,7 @@ module.exports.registerUser = async (req, res) => {
 
                    // let token = jwt.sign({email, id : user._id}, config.get("JWT_KEY"));
                     let token = generateToken(user);
-                    console.log("jwt token", token);
+                    //console.log("jwt token", token);
                     res.cookie("token", token);
                     //res.send("User created successfully");
                     res.redirect("/");
