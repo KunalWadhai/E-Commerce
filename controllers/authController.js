@@ -62,7 +62,8 @@ module.exports.loginUser = async (req, res) => {
             let token = generateToken(user);
             console.log(token);
             res.cookie("token", token);
-            res.send("User Login Successfully");
+            //res.send("User Login Successfully");
+            res.redirect("/shop");
         }
     });
 }

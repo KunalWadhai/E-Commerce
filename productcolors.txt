@@ -1,0 +1,22 @@
+
+
+Page Background (already in your UI):
+#0d0d0d (almost black, from Tailwind bg-zinc-950)
+
+Card Background:
+#1c1c1e (dark neutral gray, close to Tailwind zinc-900)
+
+Panel Background (behind product image):
+#2a2a2d (slightly lighter gray, Tailwind zinc-800)
+
+Primary Text Color (titles, headings):
+#f5f5f5 (almost white, high contrast)
+
+Secondary Text Color (price, description):
+#a1a1aa (Tailwind zinc-400)
+
+Highlight/Accent (product price highlight or buttons):
+#38bdf8 (Tailwind sky-400)
+
+Error / Discount price:
+#ef4444 (Tailwind red-500)
