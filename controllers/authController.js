@@ -73,3 +73,9 @@ module.exports.logoutUser = (req, res) => {
     //res.send("User Logout");
     res.redirect("/");
 }
+
+module.exports.loginViaGoogle = (req, res) => {
+    let token = generateToken(req.user);
+    res.cookie("token", token);
+    res.redirect("/shop");
+}

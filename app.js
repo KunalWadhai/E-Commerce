@@ -4,6 +4,8 @@ const cookieParser = require('cookie-parser');
 const path = require('path');
 
 const isLoggedIn = require("./middlewares/isLoggedIn");
+const googleAuthStrategy = require("./middlewares/googleAuthStrategy");
+
 const db = require('./config/mongoose-connection');
 
 const ownersRouter = require('./routes/ownersRouter');
@@ -31,6 +33,38 @@ app.use(expressSession({
 }));
 app.use(flash());
 app.set('view engine', 'ejs');
+
+// for Google oAuth authenctication 
+const passport = require("passport");
+const GoogleStrategy = require("passport-google-oauth20").Strategy;
+const keys = require("./config/keys");
+const userModel = require("./models/user-model");
+
+// Passport session setup.
+passport.serializeUser(function(user, done) {
+  done(null, user.id);
+});
+
+passport.deserializeUser(async function(id, done) {
+  try {
+    const user = await userModel.findById(id);
+    done(null, user);
+  } catch (err) {
+    done(err, null);
+  }
+});
+
+// Use the GoogleStrategy within Passport.
+passport.use(new GoogleStrategy({
+    clientID: keys.GOOGLE_CLIENT_ID,
+    clientSecret: keys.GOOGLE_CLIENT_SECRET,
+    callbackURL: "/users/auth/google/callback"
+  },
+  googleAuthStrategy
+));
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 // forward as per the specific routes
 app.use("/", indexRouter);
