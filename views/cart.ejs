@@ -1,22 +1,105 @@
 <!DOCTYPE html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
-<html>
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title></title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="">
-    </head>
-    <body>
-        <div class="w-full min-h-screen bg-zinc-950 text-white">
-            <header class="px-6 py-4 border-b border-zinc-500">
-                <h1 class="text-2xl font-semibold text-sky-400">bagEcom</h1>
-            </header>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Shopping Cart</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+  
+<div class="w-full h-screen bg-zinc-950 text-white">
+  <!-- Navbar -->
+    <header class="bg-gray-950 border-b border-gray-800">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+        <h1 class="text-xl font-bold text-sky-400">BagEcom</h1>
+        <nav class="hidden md:flex gap-6">
+            <a class="font-medium hover:text-sky-400" href="/shop">Shop</a>
+            <a class="font-medium hover:text-sky-400" href="/cart">Cart</a>
+            <a class="font-medium hover:text-sky-400" href="/account">Account</a>
+            <a class="font-medium text-red-500 hover:text-red-600" href="/users/logout">Logout</a>
+        </nav>
         </div>
-    </body>
+    </header>
+
+  <!-- Cart Content -->
+  <main class="max-w-7xl mx-auto px-6 py-10 grid md:grid-cols-3 gap-8">
+    
+    <!-- Cart Items -->
+    <section class="md:col-span-2 bg-gray-900 rounded-2xl shadow-lg p-6">
+      <h2 class="text-2xl font-semibold mb-6">Your Cart</h2>
+      
+      <!-- Example Cart Item -->
+      <% if (user.cart.length > 0) { %>
+        <% user.cart.forEach(cartItem => { %>
+        <% if (!cartItem.product) return; %>
+        <div class="flex items-center justify-between bg-gray-800 rounded-xl p-4 mb-4">
+          <!-- Product Info -->
+          <div class="flex items-center gap-4">
+            <img src="data:image/jpg;base64,<%= cartItem.product.image.toString('base64') %>" alt="<%= cartItem.product.name %>" class="w-20 h-20 object-cover rounded-xl">
+            <div>
+              <h3 class="font-semibold text-lg"><%= cartItem.product.name %></h3>
+              <p class="text-gray-400 text-sm line-through">₹<%= cartItem.product.price %></p>
+              <p class="text-grey-400 text-sm">₹<%= (cartItem.product.price - (cartItem.product.price * cartItem.product.discount) / 100) %></p>
+            </div>
+          </div>
+
+          <!-- Quantity & Remove -->
+          <div class="flex items-center gap-3">
+            <form action="/cart/update/<%= cartItem.product._id %>" method="POST" class="flex items-center gap-2">
+              <button type="submit" name="decrease" value="decrease" class="px-3 py-1 rounded-lg bg-gray-700 hover:bg-gray-600">-</button>
+              <span class="px-2"><%= cartItem.quantity %></span>
+              <button type="submit" name="increase" value="increase" class="px-3 py-1 rounded-lg bg-gray-700 hover:bg-gray-600">+</button>
+            </form>
+            <form action="/cart/remove/<%= cartItem.product._id %>" method="POST">
+              <button type="submit" class="text-red-500 hover:text-red-600">Remove</button>
+            </form>
+          </div>
+        </div>
+        <% }) %>
+      <% } else { %>
+        <p class="text-gray-400">Your cart is empty 🛒</p>
+      <% } %>
+    </section>
+
+    <!-- Order Summary -->
+     
+    <aside class="bg-gray-900 rounded-2xl shadow-lg p-6 h-fit">
+      <h2 class="text-2xl font-semibold mb-6">Order Summary</h2>
+      
+      <div class="flex justify-between mb-3">
+        <span>Subtotal</span>
+        <span>₹<%= totalBill %></span>
+      </div>
+      <div class="flex justify-between mb-3">
+        <span>Shipping</span>
+        <span>₹50</span>
+      </div>
+      <div class="flex justify-between font-semibold text-lg border-t border-gray-700 pt-3">
+        <span>Total</span>
+        <span>₹<%= totalBill + 50 %></span>
+      </div>
+   
+
+      <!-- Checkout Button -->
+      <form action="/checkout" method="POST" class="mt-6">
+        <button type="submit" class="w-full bg-sky-500 hover:bg-sky-600 text-white py-3 rounded-xl font-semibold">
+          Proceed to Checkout
+        </button>
+      </form>
+
+      <!-- Payment Options -->
+      <div class="mt-6">
+        <p class="text-sm text-gray-400 mb-2">Pay securely with:</p>
+        <div class="flex gap-3">
+          <img src="https://img.icons8.com/color/48/000000/visa.png" class="h-8" alt="Visa">
+          <img src="https://img.icons8.com/color/48/000000/mastercard-logo.png" class="h-8" alt="MasterCard">
+          <img src="https://img.icons8.com/color/48/000000/paypal.png" class="h-8" alt="PayPal">
+          <img src="https://img.icons8.com/color/48/000000/google-pay-india.png" class="h-8" alt="Google Pay">
+        </div>
+      </div>
+    </aside>
+  </main>
+</div>
+</body>
 </html>

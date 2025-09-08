@@ -1,0 +1,3 @@
+- [x] Fix forEach in /cart route: change user.cart.product.forEach to user.cart.forEach
+- [x] Fix comparison in addtocart: use toString() for product comparison
+- [ ] Test cart functionality via browser: login, add product, view cart

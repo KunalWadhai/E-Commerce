@@ -16,7 +16,7 @@
 
            <% if (success.length > 0) { %>
             <div class="fixed top-5 left-1/2 -translate-x-1/2 
-                        px-5 py-3 rounded-xl shadow-lg bg-sky-600 
+                        px-5 py-3 rounded-xl shadow-lg bg-transparent
                         flex items-center gap-2 z-50 
                         text-white font-medium animate-bounce">
                 <svg xmlns="http://www.w3.org/2000/svg" 
@@ -33,12 +33,16 @@
         
             <header class="flex items-center justify-between px-6 py-4 border-b border-zinc-800">
                     <h1 class="text-2xl font-bold text-sky-400">bagEcom</h1>
-                    <nav class="hidden md:flex items-center gap-6">
+                    <div class="flex justify-end w-full">
+                       <nav class="hidden md:flex gap-6">
                         <a class="font-semibold hover:text-sky-400" href="/shop">Shop</a>
-                        <a class="font-semibold hover:text-sky-400" href="/">Cart</a>
+                        <a class="font-semibold hover:text-sky-400" href="/cart">Cart</a>
                         <a class="font-semibold hover:text-sky-400" href="">Account</a>
                         <a class="font-semibold text-red-500 hover:text-red-600" href="/users/logout">Logout</a>
-                    </nav>
+                      </nav>
+                    </div>
+
+                    <!---
                  <div class="flex items-center gap-6">
                     
                     <a herf="/cart" class="relative">
@@ -51,7 +55,7 @@
                         <span class="absolute -top-2 -right-2 bg-red-600 text-xs px-1.5 rounded-full">3</span>
                     </a>
                 
-                </div>
+                </div>  -->
             </header>
 
                 <!-- Layout -->
@@ -103,6 +107,7 @@
                                 <div class="p-4 flex flex-col justify-between bg-[<%= product.panelcolor %>]">
                                     <h4 class="text-lg font-semibold group-hover:text-sky-400 text-[<%= product.textcolor %>]"><%= product.name %></h4>
                                     <p class="text-[<%= product.textcolor %>] font-bold mt-1">₹<%= product.price %></p>
+                                    <h3 class="text-zinc-500"><%= product.discount %>% Off</h3>
 
                                     <a href="/addtocart/<%= product._id %>" class="mt-4 w-full bg-sky-500 hover:bg-sky-600 text-white py-2 rounded-lg font-medium flex items-center justify-center gap-2">
         

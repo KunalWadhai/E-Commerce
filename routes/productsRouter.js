@@ -15,6 +15,7 @@ router.post("/create", upload.single("image"), async (req, res) => {
             name : name, 
             price : price,
             discount ,
+            productquantity : 1,
             bgcolor, 
             panelcolor,
             textcolor
