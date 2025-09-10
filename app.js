@@ -74,9 +74,13 @@ app.use("/products", productsRouter);
 
 
 
-app.listen(4000, () => {
-    console.log("Server running on the port 4000")
-});
+if (process.env.VERCEL) {
+  module.exports = app;
+} else {
+  app.listen(4000, () => {
+    console.log("Server running on the port 4000");
+  });
+}
 
 
 
