@@ -9,14 +9,14 @@ router.get("/", function(req, res){
 
 router.post("/create", upload.single("image"), async (req, res) => {
     try{
-        let {name, price, discount, bgcolor, panelcolor, textcolor} = req.body;
+        let {name, price, discount, bgcolor, panelcolor, textcolor, productquantity} = req.body;
         let product = await productModel.create({
             image : req.file.buffer,   // as of file's data is in the req.file part and image is in buffer form as it's been set.
-            name : name, 
+            name : name,
             price : price,
             discount ,
-            productquantity : 1,
-            bgcolor, 
+            productquantity : productquantity,
+            bgcolor,
             panelcolor,
             textcolor
         });

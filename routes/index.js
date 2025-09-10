@@ -19,9 +19,11 @@ router.get("/shop", isLoggedIn, async (req, res) => {
 router.get("/addtocart/:product_id", isLoggedIn, async (req, res) => {
     let user = await userModel.findOne({email: req.user.email});
     let productId = req.params.product_id;
+
     let cartItem = user.cart.find(item => item.product === productId);
     if (cartItem) {
         cartItem.quantity += 1;
+        console.log(cartItem.quantity);
     } else {
         user.cart.push({ product: productId, quantity: 1 });
     }
@@ -40,18 +42,20 @@ router.get('/cart', isLoggedIn, async (req, res) => {
         let discountedProductPrice = item.price - discountOnProduct;
         totalBill += discountedProductPrice * cartItem.quantity;
     });
-    console.log(totalBill);
+    //console.log(totalBill);
     res.render("cart", {user, totalBill});
 });
 
 router.post('/cart/update/:product_id', isLoggedIn, async (req, res) => {
     let user = await userModel.findOne({email : req.user.email});
     let productId = req.params.product_id;
+
     let cartItem = user.cart.find(item => item.product === productId);
     if (!cartItem) {
         return res.redirect('/cart');
     }
     if (req.body.name === "increase") {
+        console.log(req.body.name);
         cartItem.quantity += 1;
     } else if (req.body.name === "decrease") {
         if (cartItem.quantity > 1) {
